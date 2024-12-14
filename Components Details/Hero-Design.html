@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Powered Electricity Theft Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .hexagon-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            padding: 20px;
+        }
+
+        .hexagon {
+            position: relative;
+            width: 100px;
+            height: 115px;
+            background-color: #1a1a1a;
+            margin: 2px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            transition: all 0.3s ease;
+        }
+
+        .hexagon::before {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            background-color: #0a0a0a;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 1;
+        }
+
+        .hexagon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 0;
+        }
+
+        .hexagon:hover::after,
+        .hexagon.active::after {
+            opacity: 1;
+            background-color: linear-gradient(45deg, #ff00ff, #00ffff);
+            
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        #realTimeData {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="hexagon-grid" id="hexagonGrid"></div>
+    <div class="content">
+        <h1>Create Amazing Paragraphs Instantly</h1>
+        <p>Our AI-powered tool helps you generate high-quality paragraphs in seconds. Perfect for writers, students, and anyone in need of creative content.</p>
+        <button class="btn" id="startBtn">Get Started</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('hexagonGrid');
+            const columns = Math.ceil(window.innerWidth / 104);
+            const rows = Math.ceil(window.innerHeight / 119);
+            
+            for (let i = 0; i < rows * columns; i++) {
+                const hexagon = document.createElement('div');
+                hexagon.className = 'hexagon';
+                grid.appendChild(hexagon);
+            }
+
+            const hexagons = document.querySelectorAll('.hexagon');
+
+            function getNeighbors(index, cols) {
+                const row = Math.floor(index / cols);
+                const col = index % cols;
+                return [
+                    index - cols, // top
+                    index + cols, // bottom
+                    index - 1,    // left
+                    index + 1,    // right
+                    index - cols - 1, // top-left
+                    index - cols + 1  // top-right
+                ];
+            }
+
+            function activateHexagon(index) {
+                const hexagon = hexagons[index];
+                if (hexagon) {
+                    hexagon.classList.add('active');
+                    const neighbors = getNeighbors(index, columns);
+                    neighbors.forEach((neighborIndex, i) => {
+                        if (hexagons[neighborIndex]) {
+                            setTimeout(() => {
+                                hexagons[neighborIndex].style.transform = 'scale(1.1)';
+                                setTimeout(() => {
+                                    hexagons[neighborIndex].style.transform = 'scale(1)';
+                                }, 300);
+                            }, i * 50);
+                        }
+                    });
+                    setTimeout(() => {
+                        hexagon.classList.remove('active');
+                    }, 2000);
+                }
+            }
+
+            function randomHexagonEffect() {
+                const randomIndex = Math.floor(Math.random() * hexagons.length);
+                activateHexagon(randomIndex);
+            }
+
+            // Activate random hexagons every 3 seconds
+            setInterval(randomHexagonEffect, 3000);
+
+            // Keep the manual hover effect
+            hexagons.forEach((hex, index) => {
+                hex.addEventListener('mouseover', () => {
+                    activateHexagon(index);
+                });
+            });
+
+            
+        });
+    </script>
+</body>
+</html>
+

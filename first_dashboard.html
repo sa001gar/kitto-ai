@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <script src="https://unpkg.com/tailwindcss-cdn@3.4.10/tailwindcss.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen">
+    <!-- Header -->
+    <header class="fixed top-0 right-0 p-4 flex gap-4">
+        <button class="px-4 py-2 rounded-full border border-gray-600 text-gray-300 hover:bg-gray-800 transition-colors">
+            Sign up
+        </button>
+        <button class="px-4 py-2 rounded-full bg-white text-gray-900 hover:bg-gray-100 transition-colors">
+            Sign in
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-20 pb-32">
+        <h1 class="text-white text-4xl md:text-5xl lg:text-6xl text-center font-semibold mb-16 animate-fade-in">
+            What can I help you ship
+        </h1>
+
+        <!-- Action Buttons -->
+        <div class="max-w-3xl mx-auto space-y-6">
+            <!-- First Row -->
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="action-btn px-6 py-2 bg-gray-800 text-gray-300 rounded-full hover:bg-gray-700 transition-colors animate-fade-in" style="animation-delay: 0.1s">
+                    Score Me
+                </button>
+                <button class="action-btn px-6 py-2 bg-gray-800 text-gray-300 rounded-full hover:bg-gray-700 transition-colors animate-fade-in" style="animation-delay: 0.2s">
+                    Help me right
+                </button>
+                <button class="action-btn px-6 py-2 bg-gray-800 text-gray-300 rounded-full hover:bg-gray-700 transition-colors animate-fade-in" style="animation-delay: 0.3s">
+                    Summerize Text
+                </button>
+                <button class="action-btn px-6 py-2 bg-gray-800 text-gray-300 rounded-full hover:bg-gray-700 transition-colors animate-fade-in" style="animation-delay: 0.4s">
+                    Suggest Topic
+                </button>
+            </div>
+
+            <!-- Second Row -->
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="action-btn px-6 py-2 bg-gray-800 text-gray-300 rounded-full hover:bg-gray-700 transition-colors animate-fade-in" style="animation-delay: 0.5s">
+                    Improve Writing
+                </button>
+                <button class="action-btn px-6 py-2 bg-gray-800 text-gray-300 rounded-full hover:bg-gray-700 transition-colors animate-fade-in" style="animation-delay: 0.6s">
+                    Story Writing
+                </button>
+                <button class="action-btn px-6 py-2 bg-gray-800 text-gray-300 rounded-full hover:bg-gray-700 transition-colors animate-fade-in" style="animation-delay: 0.7s">
+                    Write a Paragraph
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Input Section -->
+    <div class="fixed bottom-0 left-0 right-0 p-4 bg-gray-900">
+        <div class="max-w-3xl mx-auto relative">
+            <div class="relative flex items-center">
+                <button class="absolute left-4 p-2 text-gray-400 hover:text-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                </button>
+                <input 
+                    type="text" 
+                    id="chatInput"
+                    class="w-full bg-gray-800 text-white rounded-2xl border border-gray-700 py-4 px-14 focus:outline-none focus:border-gray-600"
+                    placeholder="Ask kitto a question"
+                >
+                <button class="absolute right-4 p-2 text-gray-400 hover:text-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add click event listeners to all action buttons
+        document.querySelectorAll('.action-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const chatInput = document.getElementById('chatInput');
+                chatInput.value = button.textContent.trim();
+                chatInput.focus();
+                
+                // Add visual feedback
+                button.classList.add('bg-gray-700');
+                setTimeout(() => {
+                    button.classList.remove('bg-gray-700');
+                }, 200);
+            });
+        });
+
+        // Handle input submission
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                // Here you would typically handle the chat submission
+                console.log('Submitted:', this.value);
+                this.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
